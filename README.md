@@ -1,45 +1,64 @@
 # odrive-cli
 Runs odrive Sync Agent CLI in an official python based docker container.
-## Usage
+
+## How to Build the image
+```
+$ cd <this directory>
+$ docker build -t mu-777/odrive-cli .
+```
+
+## How to Use
 ### Start odrive container
+First you need to do the following:
+
+1. Start the container
+    ```
+    $ docker run --rm -d --name odrive-cli -v <directory_in_host>:/odrive mu-777/odrive-cli
+    ```
+1. Get Auth key in odrive from [here](https://www.odrive.com/account/authcodes)
+    - See for the details: https://docs.odrive.com/docs/odrive-sync-agent#using-the-cliagent-all-platforms
+1. Authenticate odrive agent
+    ```
+    $ docker exec odrive-cli odrive authenticate <your_auth_key>
+    Hello <your_name>
+    ```
+
+### Get odrive Synch Agent help
 ```
-docker run --rm --name odrive-cli -v "$PWD":/odrive cszubert/odrive-cli
+docker exec odrive-cli odrive -h
 ```
-### Enter the container from anothe shell
+
+### Get odrive Synch Agent status
 ```
-docker exec -it odrive-cli bash
+docker exec odrive-cli odrive status
 ```
-### Example odrive Sync Agent commands
-#### Get odrive Synch Agent help
+
+### Backup container path to odrive
 ```
-$HOME/.odrive-agent/bin/odrive -h
+docker exec odrive-cli odrive backup /odrive <odrive_path>
+``` 
+
+`/odrive` is mapped to the host folder \<directory_in_host\> with the docker run command.
+
+### Mount container path to odrive cloud path. 
 ```
-#### Get odrive Synch Agent status
+docker exec odrive-cli odrive mount /odrive <odrive_path>
 ```
-$HOME/.odrive-agent/bin/odrive status
+
+`/odrive` is mapped to the host folder \<directory_in_host\> with the docker run command.
+
+### Start syncing odrive cloud folder or file to container.
+The below command starts synching the Google Drive foler on odrive to the container. 
 ```
-#### Authenticate odrive Synch Agent - specify the AUTH_KEY for your odrive accoount
+docker exec odrive-cli odrive sync /odrive/Google\ Drive.cloudf --recursive
 ```
-$HOME/.odrive-agent/bin/odrive authenticate AUTH_KEY
-```
-#### Mount contianer path to odrive cloud path. 
-The below command maps the container path /odrive (which can also be mapped to the hosts folder, as with the docker run command above), to root folder on odrive (which includes all odrive contents).
-```
-$HOME/.odrive-agent/bin/odrive mount /odrive /
-```
-#### Start syncing odrive cloud folder or file to container.
-The below command starts synching the Google Drive foler on odrive to the container. Note that this command is not recursive and you have to start synching each file and folder that you want odrive Synch Agent to continue to sync.
-```
-$HOME/.odrive-agent/bin/odrive sync /odrive/Google\ Drive.cloudf
-```
-#### Refresh folder.
+
+### Refresh folder.
 The below command refreshes the Google Drive folder.
 ```
-$HOME/.odrive-agent/bin/odrive refresh /odrive/Google\ Drive
+docker exec odrive-cli odrive refresh /odrive/Google\ Drive
 ```
-### Stop odrive container
-```
-docker stop odrive-cli
-```
+
 ## More Information
-odrive Sync Agent: https://odrive.readme.io/v1.0/docs/odrive-sync-agent
+- odrive Sync Agent: https://odrive.readme.io/v1.0/docs/odrive-sync-agent
+- CLI Commands: https://docs.odrive.com/docs/odrive-sync-agent#cli-commands
