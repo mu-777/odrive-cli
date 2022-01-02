@@ -1,4 +1,4 @@
 #!/bin/sh
-nohup "$HOME/.odrive-agent/bin/odriveagent">/dev/null &
+nohup "/.odrive-agent/bin/odriveagent">/dev/null &
 
 exec "$@"
