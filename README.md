@@ -1,10 +1,11 @@
 # odrive-cli
 Runs odrive Sync Agent CLI in an official python based docker container.
 
-## How to Build the image
+from: https://github.com/mu-777/odrive-cli
+
+## How to Pull the image
 ```
-$ cd <this directory>
-$ docker build -t mu-777/odrive-cli .
+$ docker pull mu-777/odrive-cli:master
 ```
 
 ## How to Use
