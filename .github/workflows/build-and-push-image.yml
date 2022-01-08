@@ -31,6 +31,11 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: mu777/odrive-cli
+      - name: Echo metadata
+        run: |
+          echo ${{ steps.meta.outputs.tags }}
+          echo ${{ steps.meta.outputs.labels }}
+
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
